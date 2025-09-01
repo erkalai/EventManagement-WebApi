@@ -8,5 +8,7 @@
         public string PhoneNumber { get; set; } = string.Empty;
         public string Address { get; set; } = string.Empty;
         public string? Company { get; set; } = string.Empty;
+
+        public ICollection<Event> Events { get; set; } = new List<Event>();
     }
 }

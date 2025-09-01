@@ -1,4 +1,7 @@
-﻿namespace EventManagement.Entities
+﻿
+using EventManagement.Enums;
+
+namespace EventManagement.Entities
 {
     public class Staff
     {
@@ -7,9 +10,7 @@
         public string Role { get; set; }
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
-        public string AvailabilityStatus { get; set; }
-        public ICollection<Event> Events { get; set; } = new List<Event>();
-
-        
+        public AvailabilityStatus AvailabilityStatus { get; set; }
+        public ICollection<EventStaff> EventStaffs { get; set; } = new List<EventStaff>();
     }
 }

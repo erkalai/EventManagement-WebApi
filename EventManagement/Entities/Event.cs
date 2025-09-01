@@ -1,4 +1,7 @@
-﻿namespace EventManagement.Entities
+﻿
+using EventManagement.Enums;
+
+namespace EventManagement.Entities
 {
     public class Event
     {
@@ -9,8 +12,13 @@
         public DateTime EndDate { get; set; }
         public string Location { get; set; }
         public string Venue { get; set; }
-        public string Status { get; set; }
+        public EventStatus Status { get; set; }
 
-        public Client ClientId { get; set; }
+        public Guid ClientId { get; set; }
+        public Client Client { get; set; } = null!;
+
+        public ICollection<EventStaff> EventStaffs { get; set; } = new List<EventStaff>();
+        public ICollection<EventResource> EventResources { get; set; } = new List<EventResource>();
+        public Billing? Billing { get; set; }
     }
 }

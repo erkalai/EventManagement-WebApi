@@ -3,7 +3,9 @@
     public class EventStaff
     {
         public Guid EventStaffId { get; set; }
-        public int EventId { get; set; }
-        public int StaffId { get; set; }
+        public Guid EventId { get; set; }
+        public Event Event { get; set; } = null!;
+        public Guid StaffId { get; set; }
+        public Staff Staff { get; set; } = null!;
     }
 }
