@@ -1,5 +1,4 @@
-﻿
-using EventManagement.Enums;
+﻿using EventManagement.Enums;
 
 namespace EventManagement.Entities
 {
@@ -11,6 +10,5 @@ namespace EventManagement.Entities
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
         public AvailabilityStatus AvailabilityStatus { get; set; }
-        public ICollection<EventStaff> EventStaffs { get; set; } = new List<EventStaff>();
     }
 }

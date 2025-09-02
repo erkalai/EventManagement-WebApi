@@ -4,6 +4,7 @@ using EventManagement.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EventManagement.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250902033839_UpdateAllDbSet")]
+    partial class UpdateAllDbSet
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -110,9 +113,6 @@ namespace EventManagement.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("StaffId")
-                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
@@ -271,11 +271,13 @@ namespace EventManagement.Migrations
 
             modelBuilder.Entity("EventManagement.Entities.Event", b =>
                 {
-                    b.HasOne("EventManagement.Entities.Client", null)
+                    b.HasOne("EventManagement.Entities.Client", "Client")
                         .WithMany("Events")
                         .HasForeignKey("ClientId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Client");
                 });
 
             modelBuilder.Entity("EventManagement.Entities.EventResource", b =>
@@ -300,13 +302,13 @@ namespace EventManagement.Migrations
             modelBuilder.Entity("EventManagement.Entities.EventStaff", b =>
                 {
                     b.HasOne("EventManagement.Entities.Event", "Event")
-                        .WithMany()
+                        .WithMany("EventStaffs")
                         .HasForeignKey("EventId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("EventManagement.Entities.Staff", "Staff")
-                        .WithMany()
+                        .WithMany("EventStaffs")
                         .HasForeignKey("StaffId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -326,11 +328,18 @@ namespace EventManagement.Migrations
                     b.Navigation("Billing");
 
                     b.Navigation("EventResources");
+
+                    b.Navigation("EventStaffs");
                 });
 
             modelBuilder.Entity("EventManagement.Entities.Resource", b =>
                 {
                     b.Navigation("EventResources");
+                });
+
+            modelBuilder.Entity("EventManagement.Entities.Staff", b =>
+                {
+                    b.Navigation("EventStaffs");
                 });
 #pragma warning restore 612, 618
         }

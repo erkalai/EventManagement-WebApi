@@ -8,7 +8,5 @@
         public string Type { get; set; }
         public int QuantityAvailable { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-
-        public ICollection<EventResource> EventResources { get; set; } = new List<EventResource>();
     }
 }

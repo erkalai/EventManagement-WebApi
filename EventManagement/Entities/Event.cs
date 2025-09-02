@@ -15,9 +15,7 @@ namespace EventManagement.Entities
         public EventStatus Status { get; set; }
 
         public Guid ClientId { get; set; }
-        public Client Client { get; set; } = null!;
-
-        public ICollection<EventStaff> EventStaffs { get; set; } = new List<EventStaff>();
+        public Guid StaffId { get; set; }
         public ICollection<EventResource> EventResources { get; set; } = new List<EventResource>();
         public Billing? Billing { get; set; }
     }

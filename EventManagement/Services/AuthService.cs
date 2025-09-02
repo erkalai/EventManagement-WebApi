@@ -40,6 +40,7 @@ namespace EventManagement.Services
 
             user.Username = request.Username;
             user.PasswordHash = hashedPassword;
+            user.Role = request.Role ?? "User";
 
             context.Add(user);
             await context.SaveChangesAsync();
