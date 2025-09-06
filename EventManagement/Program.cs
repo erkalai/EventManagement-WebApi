@@ -22,16 +22,15 @@ builder.Services.AddSwaggerGen(c =>
     c.SwaggerDoc("v1", new() { Title = "Event Management API", Version = "v1" });
 });
 
-// Database (SQL Server in your case)
-//builder.Services.AddDbContext<AppDbContext>(options =>
-//    options.UseSqlServer(builder.Configuration.GetConnectionString("AppDatabase")));
-
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseNpgsql(
-        builder.Configuration.GetConnectionString("AppDatabase"),
-        npgsqlOptions => npgsqlOptions.CommandTimeout(60)
-    )
-);
+   options.UseSqlServer(builder.Configuration.GetConnectionString("AppDatabase")));
+
+//builder.Services.AddDbContext<AppDbContext>(options =>
+//    options.UseNpgsql(
+//        builder.Configuration.GetConnectionString("AppDatabase"),
+//        npgsqlOptions => npgsqlOptions.CommandTimeout(60)
+//    )
+//);
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>

@@ -6,7 +6,9 @@
         public string Name { get; set; }
         public string Description { get; set; }
         public string Type { get; set; }
+        public int QuantityTotal { get; set; }
         public int QuantityAvailable { get; set; }
+        public int ResourceCost { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     }
 }

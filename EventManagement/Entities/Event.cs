@@ -13,10 +13,10 @@ namespace EventManagement.Entities
         public string Location { get; set; }
         public string Venue { get; set; }
         public EventStatus Status { get; set; }
-
         public Guid ClientId { get; set; }
-        public Guid StaffId { get; set; }
-        public ICollection<EventResource> EventResources { get; set; } = new List<EventResource>();
-        public Billing? Billing { get; set; }
+        //public Guid StaffId { get; set; }
+        public Guid BillId { get; set; }
+        public ICollection<Staff> STaffs { get; set; } = new List<Staff>();
+        public ICollection<Resource> Resources { get; set; } = new List<Resource>();
     }
 }

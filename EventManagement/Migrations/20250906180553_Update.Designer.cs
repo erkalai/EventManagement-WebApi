@@ -3,17 +3,17 @@ using System;
 using EventManagement.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
 namespace EventManagement.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250903073042_UpdateModels")]
-    partial class UpdateModels
+    [Migration("20250906180553_Update")]
+    partial class Update
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -21,41 +21,40 @@ namespace EventManagement.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "9.0.8")
-                .HasAnnotation("Relational:MaxIdentifierLength", 63);
+                .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
-            NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
             modelBuilder.Entity("EventManagement.Entities.Billing", b =>
                 {
                     b.Property<Guid>("BillId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("DueAmount")
-                        .HasColumnType("integer");
+                        .HasColumnType("int");
 
                     b.Property<Guid>("EventId")
-                        .HasColumnType("uuid");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("PaidAmount")
-                        .HasColumnType("integer");
+                        .HasColumnType("int");
 
                     b.Property<int>("PaymentStatus")
-                        .HasColumnType("integer");
+                        .HasColumnType("int");
 
                     b.Property<int>("TotalAmount")
-                        .HasColumnType("integer");
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("datetime2");
 
                     b.HasKey("BillId");
 
-                    b.HasIndex("EventId")
-                        .IsUnique();
+                    b.HasIndex("EventId");
 
                     b.ToTable("Billing");
                 });
@@ -64,26 +63,26 @@ namespace EventManagement.Migrations
                 {
                     b.Property<Guid>("ClientId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Address")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Company")
-                        .HasColumnType("text");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ClientId");
 
@@ -94,42 +93,40 @@ namespace EventManagement.Migrations
                 {
                     b.Property<Guid>("EventId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("BillId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("ClientId")
-                        .HasColumnType("uuid");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("EndDate")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Location")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<Guid>("StaffId")
-                        .HasColumnType("uuid");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("StartDate")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("Status")
-                        .HasColumnType("integer");
+                        .HasColumnType("int");
 
                     b.Property<string>("Venue")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("EventId");
-
-                    b.HasIndex("ClientId");
 
                     b.ToTable("Events");
                 });
@@ -138,16 +135,16 @@ namespace EventManagement.Migrations
                 {
                     b.Property<Guid>("EventResourceId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("EventId")
-                        .HasColumnType("uuid");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("QuantityUsed")
-                        .HasColumnType("integer");
+                        .HasColumnType("int");
 
                     b.Property<Guid>("ResourceId")
-                        .HasColumnType("uuid");
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("EventResourceId");
 
@@ -162,13 +159,13 @@ namespace EventManagement.Migrations
                 {
                     b.Property<Guid>("EventStaffId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("EventId")
-                        .HasColumnType("uuid");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("StaffId")
-                        .HasColumnType("uuid");
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("EventStaffId");
 
@@ -183,27 +180,38 @@ namespace EventManagement.Migrations
                 {
                     b.Property<Guid>("ResourceId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("EventId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("QuantityAvailable")
-                        .HasColumnType("integer");
+                        .HasColumnType("int");
+
+                    b.Property<int>("QuantityTotal")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ResourceCost")
+                        .HasColumnType("int");
 
                     b.Property<string>("Type")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ResourceId");
+
+                    b.HasIndex("EventId");
 
                     b.ToTable("Resources");
                 });
@@ -212,28 +220,33 @@ namespace EventManagement.Migrations
                 {
                     b.Property<Guid>("StaffId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("AvailabilityStatus")
-                        .HasColumnType("integer");
+                        .HasColumnType("int");
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("EventId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Role")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("StaffId");
+
+                    b.HasIndex("EventId");
 
                     b.ToTable("Staffs");
                 });
@@ -242,19 +255,19 @@ namespace EventManagement.Migrations
                 {
                     b.Property<Guid>("UserId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("PasswordHash")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Role")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Username")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("UserId");
 
@@ -264,27 +277,18 @@ namespace EventManagement.Migrations
             modelBuilder.Entity("EventManagement.Entities.Billing", b =>
                 {
                     b.HasOne("EventManagement.Entities.Event", "Event")
-                        .WithOne("Billing")
-                        .HasForeignKey("EventManagement.Entities.Billing", "EventId")
+                        .WithMany()
+                        .HasForeignKey("EventId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Event");
                 });
 
-            modelBuilder.Entity("EventManagement.Entities.Event", b =>
-                {
-                    b.HasOne("EventManagement.Entities.Client", null)
-                        .WithMany("Events")
-                        .HasForeignKey("ClientId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("EventManagement.Entities.EventResource", b =>
                 {
                     b.HasOne("EventManagement.Entities.Event", "Event")
-                        .WithMany("EventResources")
+                        .WithMany()
                         .HasForeignKey("EventId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -319,16 +323,25 @@ namespace EventManagement.Migrations
                     b.Navigation("Staff");
                 });
 
-            modelBuilder.Entity("EventManagement.Entities.Client", b =>
+            modelBuilder.Entity("EventManagement.Entities.Resource", b =>
                 {
-                    b.Navigation("Events");
+                    b.HasOne("EventManagement.Entities.Event", null)
+                        .WithMany("Resources")
+                        .HasForeignKey("EventId");
+                });
+
+            modelBuilder.Entity("EventManagement.Entities.Staff", b =>
+                {
+                    b.HasOne("EventManagement.Entities.Event", null)
+                        .WithMany("STaffs")
+                        .HasForeignKey("EventId");
                 });
 
             modelBuilder.Entity("EventManagement.Entities.Event", b =>
                 {
-                    b.Navigation("Billing");
+                    b.Navigation("Resources");
 
-                    b.Navigation("EventResources");
+                    b.Navigation("STaffs");
                 });
 #pragma warning restore 612, 618
         }
